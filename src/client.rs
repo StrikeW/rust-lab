@@ -71,9 +71,13 @@ async fn worker2_run(mut client: EchoClient<Channel>) {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    env_logger::init();
+
     let channel = Channel::from_static("http://[::1]:50051")
         .initial_stream_window_size(16384).initial_connection_window_size(16384).connect().await.unwrap();
     let client = EchoClient::new(channel);
+
+    log::info!("client starting up");
 
     let join1 = tokio::spawn(worker1_run(client.clone()));
     let join2 = tokio::spawn(worker2_run(client));
