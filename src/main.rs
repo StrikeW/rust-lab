@@ -92,7 +92,7 @@ impl TestIterator {
 }
 
 impl KvIterator for TestIterator {
-    type NextFuture<'a> = impl Future<Output = Option<(&'a [u8], &'a [u8])>>;
+    type NextFuture<'a> = impl Future<Output=Option<(&'a [u8], &'a [u8])>>;
 
     fn next(&mut self) -> Self::NextFuture<'_> {
         async move {
@@ -202,12 +202,12 @@ impl<'a> MyIterator<'a> {
 }
 
 struct Imm {
-    batch_id: usize
+    batch_id: usize,
 }
 
 enum ImmImpl {
     Batch(Imm),
-    Merged(MergedImmInner)
+    Merged(MergedImmInner),
 }
 
 
@@ -220,7 +220,7 @@ pub struct TableId {
 async fn test_range() {
     let mut map: HashMap<(TableId, u64), String> = HashMap::new();
     let mut v1 = vec![7, 6, 5, 4, 3, 2, 1];
-    let mut v2 = vec![1,2,3,4,5,6,7];
+    let mut v2 = vec![1, 2, 3, 4, 5, 6, 7];
 
     let idx1 = v1.partition_point(|x| x > &4);
     let idx2 = v2.partition_point(|x| x <= &4);
